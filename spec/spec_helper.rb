@@ -48,6 +48,7 @@ Spork.prefork do
     config.expect_with :rspec do |c|
       c.syntax = :expect
     end
+    config.include ApplicationHelper
   end
 end
 
