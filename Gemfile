@@ -8,6 +8,7 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
+gem 'pry'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
@@ -17,6 +18,7 @@ group :development, :test do
   gem 'spork-rails', '4.0.0'
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.9'
+  gem 'byebug'
 end
 
 group :test do

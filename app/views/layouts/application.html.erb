@@ -11,11 +11,17 @@
   <body>
   	<%= render 'layouts/header' %>
     <div class="container">
-    	<% unless(yield(:title).empty?) %>
-				<h1><%= yield(:title) %></h1>
+      <% flash.each do |key,value| %>
+        <div class="alert alert-<%=key%>"><%= value %></div>
+      <%end%>
+    	<% unless (yield(:title).empty?) %>
+        <%if ((yield(:show_h1?).empty?) || (yield(:show_h1?) == "true")) %>
+				  <h1><%= yield(:title) %></h1>
+        <%end%>
 			<%end%>
       <%= yield %>
       <%= render('/layouts/footer') %>
+      <%= debug(params) if Rails.env.development? %>
     </div>
 </body>
 </html>
