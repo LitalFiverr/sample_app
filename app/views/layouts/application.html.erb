@@ -21,7 +21,16 @@
 			<%end%>
       <%= yield %>
       <%= render('/layouts/footer') %>
-      <%= debug(params) if Rails.env.development? %>
+      <p>
+        <%= debug(params) if Rails.env.development? %>
+      </p>
+      <footer>Request properties
+        <div>body: <%= request.body.string %></div>
+        <div>flash: <%= request.flash.to_a %></div>
+        <div>full_path: <%= request.fullpath %></div>
+        <div>local?: <%= request.local? %></div>
+        <div>method: <%= request.method %></div>
+      <footer>
     </div>
 </body>
 </html>

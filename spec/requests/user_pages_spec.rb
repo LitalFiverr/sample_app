@@ -6,6 +6,7 @@ describe "User Pages" do
 
     describe "index" do
       let(:user) {FactoryGirl.create(:user)}
+
       before(:each) do
         sign_in user
         visit users_path
@@ -37,6 +38,7 @@ describe "User Pages" do
           end
 
           it {should have_link('delete', href: user_path(User.first))}
+
           it "should be able to delete another user" do
             expect do
               click_link('delete', match: :first)
@@ -45,13 +47,34 @@ describe "User Pages" do
           it {should_not have_link('delete', href: user_path(admin))}
         end
       end
+
+      describe "destroy admin user by itself" do
+        let(:admin) {FactoryGirl.create(:admin)}
+        before do 
+          sign_in admin, no_capybara: true
+        end
+        
+        it "should not be destroyed" do
+          expect {delete user_path(admin)}.not_to change(User,:count)
+        end
+      end
     end
 
   	describe "signup page" do
-  		before { visit signup_path}
+  		before {visit signup_path}
 
   		it {should have_content('Sign up')}
   		it {should have_title(full_title('Sign up'))}
+
+      describe "after sign in" do
+        let(:user) {FactoryGirl.create(:user)}
+        before do 
+          sign_in(user)
+          visit(signup_path)
+        end
+
+        it {should_not have_title("Sign up")}
+      end
   	end
 
     describe "signup" do
@@ -142,5 +165,14 @@ describe "User Pages" do
         specify { expect(user.reload.name).to  eq new_name }
         specify { expect(user.reload.email).to eq new_email }
       end
+
+      describe "set admin property when not admin" do
+        let(:non_admin) {FactoryGirl.create(:user)}
+        before do 
+          sign_in non_admin, no_capybara: true
+          patch user_path(non_admin), user: {admin: true, password:"Example", password_confirmation:"Example"}
+        end
+        specify {expect(non_admin.reload.admin).to eq false }
+      end  
     end
 end
