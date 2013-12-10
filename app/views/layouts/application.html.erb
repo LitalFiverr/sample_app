@@ -21,9 +21,7 @@
 			<%end%>
       <%= yield %>
       <%= render('/layouts/footer') %>
-      <p>
-        <%= debug(params) if Rails.env.development? %>
-      </p>
+      <%= debug(params) if Rails.env.development? %>
       <footer>Request properties
         <div>body: <%= request.body.string %></div>
         <div>flash: <%= request.flash.to_a %></div>

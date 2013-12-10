@@ -123,10 +123,19 @@ describe "User Pages" do
 
   	describe "profile page" do
 			let(:user_to_show) { FactoryGirl.create(:user) }
+      let!(:m1) {FactoryGirl.create(:micropost, user:user_to_show, content:"m1")}
+      let!(:m2) {FactoryGirl.create(:micropost, user:user_to_show, content:"m2")}
+
 			before {visit user_path(user_to_show)}
 
 			it {should have_content (user_to_show.name)}
 			it {should have_title (user_to_show.name)}
+
+      describe "microposts" do
+        it {should have_content(m1.content)}
+        it {should have_content(m2.content)}
+        it {should have_content(user_to_show.microposts.count)}
+      end
 		end
 
     describe "edit" do
