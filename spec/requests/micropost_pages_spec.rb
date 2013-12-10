@@ -41,6 +41,17 @@ describe "Micropost pages" do
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
     end
+
+    describe "as not correct user" do
+      let(:other_user) {FactoryGirl.create(:user)}
+      before do 
+        sign_in other_user
+      end
+
+      it "should not delete a micropost" do
+        expect {delete micropost_path(user.microposts.first)}.not_to change(Micropost,:count)
+      end
+    end
   end
   
 end
